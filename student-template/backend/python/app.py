@@ -1,21 +1,38 @@
-from flask import Flask, jsonify
-import os
-# TODO: Import your database connector here
+from fastapi import FastAPI
+from sqlalchemy import select
 
-app = Flask(__name__)
+from database import SessionLocal
+from models import Inventory
 
-# TODO: Configure database connection using os.getenv('DATABASE_URL')
+app = FastAPI(title="ERP Inventory API")
 
-@app.route('/api/inventory/alerts', methods=['GET'])
-def get_alerts():
-    """
-    TODO: Implement this function.
-    1. Connect to the database.
-    2. Query 'inventory' table where quantity <= reorder_level.
-    3. Return JSON list of products.
-    """
-    # REMOVE THIS LINE AND IMPLEMENT LOGIC
-    return jsonify([]), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@app.get("/api/inventory/alerts")
+def get_inventory_alerts():
+
+    db = SessionLocal()
+
+    try:
+
+        items = db.execute(
+            select(Inventory).where(
+                Inventory.quantity <= Inventory.reorder_level
+            )
+        ).scalars().all()
+
+        result = []
+
+        for item in items:
+
+            result.append({
+                "id": str(item.id),
+                "product_name": item.product_name,
+                "quantity": item.quantity,
+                "reorder_level": item.reorder_level
+            })
+
+        return result
+
+    finally:
+
+        db.close()
