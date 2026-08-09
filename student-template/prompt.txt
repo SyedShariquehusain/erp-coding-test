@@ -1,4 +1,58 @@
-# TODO: Write your AI prompt below this line
+AI CODING ASSISTANT PROMPT — Supplier Performance Widget
 
+Create a React component named SupplierPerformance for an ERP dashboard.
 
----
+Goal: Build a responsive “Supplier Performance” widget that displays: 1.
+On-time delivery percentage for each supplier. 2. Average response time
+to purchase orders. 3. A color-coded performance status: - Green =
+Good - Yellow = Average - Red = Poor
+
+Component name: SupplierPerformance
+
+Expected props: The component should accept a prop named suppliers,
+which is an array of supplier performance objects:
+
+[ { supplierId: “SUP-001”, supplierName: “ABC Supplies”,
+onTimeDeliveryPercentage: 96, averageResponseTimeHours: 4, status:
+“Good” }, { supplierId: “SUP-002”, supplierName: “XYZ Traders”,
+onTimeDeliveryPercentage: 78, averageResponseTimeHours: 12, status:
+“Average” }]
+
+Type shape:
+
+type SupplierPerformanceData = { supplierId: string; supplierName:
+string; onTimeDeliveryPercentage: number; averageResponseTimeHours:
+number; status?: “Good” | “Average” | “Poor”; };
+
+type SupplierPerformanceProps = { suppliers: SupplierPerformanceData[];
+};
+
+The component should be easy to connect to an API such as: GET
+/api/suppliers/performance
+
+UI requirements: - Create a clean, professional ERP dashboard widget. -
+Use a table layout on desktop and make it responsive on smaller
+screens. - Columns: Supplier, On-Time Delivery, Avg. Response Time,
+Status. - Display delivery values such as 96%. - Display response time
+such as 4 hrs. - Show status as a colored badge/chip. - Add the title
+“Supplier Performance”. - Show “No supplier performance data available.”
+when the array is empty. - If API fetching is implemented, include
+loading and error states. - Use semantic HTML and accessible labels
+where appropriate. - Prefer the project’s existing UI library and
+styling conventions.
+
+Color-coding logic: - Good → Green - Average → Yellow/Amber - Poor → Red
+
+If status is not supplied by the API, calculate it from on-time delivery
+percentage: - Good: >= 90% - Average: >= 75% and < 90% - Poor: < 75%
+
+Put this status calculation in a small reusable helper function.
+
+Important: - Do not hard-code supplier records in the component. - Do
+not expose API keys or secrets in frontend code. - Keep the component
+self-contained and easy to integrate. - If the project already uses
+Material UI or another UI library, use that library rather than adding a
+new one. - Provide complete production-quality React code and any small
+supporting styles/types required. - Explain where to import and render
+it, for example:  - Make the component responsive, accessible, readable,
+and maintainable.
